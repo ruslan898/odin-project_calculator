@@ -1,6 +1,7 @@
 const displayBox = document.querySelector('.display-box');
 const numbersBox = document.querySelector('.numbers-box');
 const buttons = document.querySelectorAll('.btn');
+const operatorBtns = document.querySelectorAll('.operator-btn');
 const backspaceBtn = document.querySelector('#backspace');
 const clearBtn = document.querySelector('#clear');
 const signBtn = document.querySelector('#sign');
@@ -50,11 +51,42 @@ function displayInput(input) {
 }
 
 function updateVar(value, varName) {
-  if (varName === 'first') {
+  if (varName === 'num1') {
     num1 += value;
-  } else if (varName === 'second') {
+  } else if (varName === 'num2') {
     num2 += value;
   } else if (varName === 'operator') {
     operator = value;
   }
+}
+
+numbersBox.addEventListener('click', (e) => {
+  if (e.target.classList.contains('btn')) {
+    const currentInput = e.target.textContent;
+    displayInput(currentInput);
+    updateVar(currentInput, 'num1');
+  }
+});
+
+operatorBtns.forEach((btn) => {
+  btn.addEventListener('click', () => {
+    if (num1) {
+      updateVar(btn.id, 'operator');
+      if (btn.classList.contains('active')) {
+        removeActiveClass(btn);
+      } else {
+        addActiveClass(operatorBtns, btn);
+      }
+    }
+  });
+});
+
+function addActiveClass(buttons, activeBtn) {
+  buttons.forEach((btn) => {
+    btn.classList.remove('active');
+  });
+  activeBtn.classList.add('active');
+}
+function removeActiveClass(btn) {
+  btn.classList.remove('active');
 }
