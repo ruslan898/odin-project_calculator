@@ -11,6 +11,10 @@ const plusBtn = document.querySelector('#plus');
 const equalsBtn = document.querySelector('#equals');
 const zeroBtn = document.querySelector('#zero');
 const pointBtn = document.querySelector('#point');
+let num1;
+let num2;
+let operator;
+
 function add(num1, num2) {
   return +num1 + +num2;
 }
