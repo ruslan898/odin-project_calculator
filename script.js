@@ -48,3 +48,13 @@ function displayInput(input) {
     displayBox.textContent += input;
   }
 }
+
+function updateVar(value, varName) {
+  if (varName === 'first') {
+    num1 += value;
+  } else if (varName === 'second') {
+    num2 += value;
+  } else if (varName === 'operator') {
+    operator = value;
+  }
+}
