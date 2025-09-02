@@ -42,3 +42,9 @@ function operate(operator, num1, num2) {
     return divide(num1, num2);
   }
 }
+
+function displayInput(input) {
+  if (displayBox.textContent.length < 9) {
+    displayBox.textContent += input;
+  }
+}
