@@ -32,6 +32,13 @@ body {
   gap: 10px;
   justify-content: center;
 }
+.numbers-box {
+  display: grid;
+  grid-column: 1 / 4;
+  grid-row: 2 / 6;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
 .btn {
   background-color: gray;
   font-size: 30px;
@@ -46,4 +53,10 @@ body {
 }
 .btn:hover {
   background-color: rgb(175, 181, 184);
+}
+.active {
+  background-color: yellow;
+}
+.active:hover {
+  background-color: yellow;
 }
