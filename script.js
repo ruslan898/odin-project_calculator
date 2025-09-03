@@ -60,6 +60,22 @@ function updateVar(value, varName) {
   }
 }
 
+// Clear values
+function clear(...clearItems) {
+  if (clearItems.includes('display')) {
+    displayBox.textContent = '';
+  }
+  if (clearItems.includes('num1')) {
+    num1 = '';
+  }
+  if (clearItems.includes('num2')) {
+    num2 = '';
+  }
+  if (clearItems.includes('operator')) {
+    operator = '';
+  }
+}
+
 numbersBox.addEventListener('click', (e) => {
   if (e.target.classList.contains('btn')) {
     const currentInput = e.target.textContent;
