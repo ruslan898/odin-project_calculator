@@ -14,8 +14,10 @@ const zeroBtn = document.querySelector('#zero');
 const pointBtn = document.querySelector('#point');
 let num1 = '';
 let num2 = '';
-let operator;
+let operator = '';
 
+
+// Basic math operators functions
 function add(num1, num2) {
   return +num1 + +num2;
 }
@@ -29,6 +31,7 @@ function divide(num1, num2) {
   return +num1 / +num2;
 }
 
+// Calculation handler function
 function operate(operator, num1, num2) {
   if (operator === 'plus') {
     return add(num1, num2);
@@ -44,12 +47,14 @@ function operate(operator, num1, num2) {
   }
 }
 
+// Display result on screen
 function displayInput(input) {
   if (displayBox.textContent.length < 9) {
     displayBox.textContent += input;
   }
 }
 
+// Update variable values
 function updateVar(value, varName) {
   if (varName === 'num1') {
     num1 += value;
@@ -93,8 +98,14 @@ function removeActiveClass(buttons) {
 numbersBox.addEventListener('click', (e) => {
   if (e.target.classList.contains('btn')) {
     const currentInput = e.target.textContent;
-    displayInput(currentInput);
-    updateVar(currentInput, 'num1');
+    if (!operator) {
+      displayInput(currentInput);
+      updateVar(currentInput, 'num1');
+    } else {
+      clear('display');
+      displayInput(currentInput);
+      updateVar(currentInput, 'num2');
+    }
   }
 });
 
@@ -103,7 +114,7 @@ operatorBtns.forEach((btn) => {
     if (num1) {
       updateVar(btn.id, 'operator');
       if (btn.classList.contains('active')) {
-        removeActiveClass(btn);
+        removeActiveClass(buttons);
       } else {
         addActiveClass(operatorBtns, btn);
       }
@@ -111,12 +122,15 @@ operatorBtns.forEach((btn) => {
   });
 });
 
-function addActiveClass(buttons, activeBtn) {
-  buttons.forEach((btn) => {
-    btn.classList.remove('active');
-  });
-  activeBtn.classList.add('active');
-}
-function removeActiveClass(btn) {
-  btn.classList.remove('active');
-}
+
+equalsBtn.addEventListener('click', () => {
+  if (num1 && operator && num2) {
+    clear('display');
+    displayInput(operate(operator, num1, num2))
+  }
+})
+
+clearBtn.addEventListener('click', () => {
+  clear('display', 'num1', 'num2', 'operator');
+  removeActiveClass(operatorBtns);
+})
