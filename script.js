@@ -76,6 +76,20 @@ function clear(...clearItems) {
   }
 }
 
+// Add and remove active class from buttons
+function addActiveClass(buttons, activeBtn) {
+  buttons.forEach((btn) => {
+    btn.classList.remove('active');
+  });
+  activeBtn.classList.add('active');
+}
+function removeActiveClass(buttons) {
+  buttons.forEach((btn) => {
+    btn.classList.remove('active');
+  })
+}
+
+
 numbersBox.addEventListener('click', (e) => {
   if (e.target.classList.contains('btn')) {
     const currentInput = e.target.textContent;
