@@ -28,7 +28,10 @@ function multiply(num1, num2) {
   return +num1 * +num2;
 }
 function divide(num1, num2) {
-  return +num1 / +num2;
+  if (+num2 === 0) {
+    return "Can't divide by zero"
+  }
+  return (+num1 / +num2 % 2 === 0) ? +num1 / +num2 : (+num1 / +num2).toFixed(2);
 }
 
 // Calculation handler function
@@ -56,11 +59,17 @@ function displayInput(input) {
 
 // Update variable values
 function updateVar(value, varName) {
-  if (varName === 'num1') {
-    num1 += value;
-  } else if (varName === 'num2') {
-    num2 += value;
-  } else if (varName === 'operator') {
+  if (num1.length < 9) {
+    if (varName === 'num1') {
+      num1 += value;
+    }
+  }
+  if (num2.length < 9) {
+    if (varName === 'num2') {
+      num2 += value;
+    }
+  }
+  if (varName === 'operator') {
     operator = value;
   }
 }
@@ -94,38 +103,96 @@ function removeActiveClass(buttons) {
   })
 }
 
+// Remove last char
+function backspaceFn() {
+  let currentText = displayBox.textContent;
+  currentText = currentText.slice(0, -1);
+  clear('display');
+  displayInput(currentText);
+  if (!operator) {
+    num1 = currentText;
+  } else {
+    num2 = currentText;
+  }
+}
+
+function changeNumSign(num) {
+  return num *= -1;
+}
+
 
 numbersBox.addEventListener('click', (e) => {
   if (e.target.classList.contains('btn')) {
     const currentInput = e.target.textContent;
+    if (equalsBtn.dataset.active === 'true') {
+      equalsBtn.dataset.active = 'false';
+      clear('display', 'num1', 'num2', 'operator');
+    }
+    if (operator && !num2) {
+      clear('display');
+      removeActiveClass(buttons)
+    }
     if (!operator) {
       displayInput(currentInput);
       updateVar(currentInput, 'num1');
     } else {
-      clear('display');
       displayInput(currentInput);
       updateVar(currentInput, 'num2');
     }
   }
 });
 
+zeroBtn.addEventListener('click', () => {
+  if (equalsBtn.dataset.active === 'true') {
+    equalsBtn.dataset.active = 'false';
+    clear('display', 'num1', 'num2', 'operator');
+  }
+  if (operator && !num2) {
+    clear('display');
+    removeActiveClass(buttons);
+  }
+  if (!operator) {
+    displayInput('0');
+    updateVar('0', 'num1');
+  } else {
+    displayInput('0');
+    updateVar('0', 'num2');
+  }
+})
+
 operatorBtns.forEach((btn) => {
   btn.addEventListener('click', () => {
-    if (num1) {
+    if (num1 && num2) {
+      clear('display');
+      displayInput(operate(operator, num1, num2));
+      num1 = displayBox.textContent;
+      clear('operator', 'num2');
+      if (btn.classList.contains('active')) {
+        removeActiveClass(buttons);
+        clear('operator');
+      } else {
+        addActiveClass(operatorBtns, btn);
+      }
+      updateVar(btn.id, 'operator');
+    } else if (num1) {
       updateVar(btn.id, 'operator');
       if (btn.classList.contains('active')) {
         removeActiveClass(buttons);
+        clear('operator');
       } else {
         addActiveClass(operatorBtns, btn);
       }
     }
+
   });
 });
 
 
 equalsBtn.addEventListener('click', () => {
   if (num1 && operator && num2) {
+    equalsBtn.dataset.active = 'true';
     clear('display');
+    removeActiveClass(buttons);
     displayInput(operate(operator, num1, num2))
   }
 })
@@ -133,4 +200,27 @@ equalsBtn.addEventListener('click', () => {
 clearBtn.addEventListener('click', () => {
   clear('display', 'num1', 'num2', 'operator');
   removeActiveClass(operatorBtns);
+})
+
+backspaceBtn.addEventListener('click', () => {
+  backspaceFn();
+})
+
+signBtn.addEventListener('click', () => {
+  if (!equalsBtn.dataset.active || equalsBtn.dataset.active === 'false') {
+    clear('display');
+    if (!operator) {
+      num1 = changeNumSign(num1);
+      displayInput(num1);
+    } else {
+      num2 = changeNumSign(num2);
+      displayInput(num2);
+    }
+  }
+})
+
+pointBtn.addEventListener('click', () => {
+  if (displayBox.textContent && !(displayBox.textContent.includes('.'))) {
+    displayInput('.');
+  }
 })

@@ -29,13 +29,14 @@ body {
   padding: 20px 0;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(5, 1fr);
   gap: 10px;
   justify-content: center;
 }
 .numbers-box {
   display: grid;
   grid-column: 1 / 4;
-  grid-row: 2 / 6;
+  grid-row: 2 / 5;
   grid-template-columns: repeat(3, 1fr);
   gap: 10px;
 }
