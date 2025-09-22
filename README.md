@@ -20,10 +20,6 @@ This project is a simple calculator application built as part of [The Odin Proje
 2. **Open the application:**
    - Simply open the `index.html` file in your web browser to use the calculator.
 
-## Screenshots
-
-_Add a screenshot here if desired_
-
 ## Technologies Used
 
 - HTML
